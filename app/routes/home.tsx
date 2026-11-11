@@ -1,6 +1,5 @@
+import { getRayDirection, useBoardStore } from "~/boardState";
 import Cell from "~/components/cell";
-import { RayDirection } from "~/types";
-import { Welcome } from "../welcome/welcome";
 
 export function meta() {
   return [
@@ -10,12 +9,23 @@ export function meta() {
 }
 
 export default function Home() {
+  const board = useBoardStore((state) => state);
+
   return (
     <section className="grid size-60 grid-rows-2 grid-cols-2">
-      <Cell x={0} y={0} rayDirection={RayDirection.DownRight} />
-      <Cell x={0} y={0} rayDirection={RayDirection.Down} />
-      <Cell x={0} y={0} rayDirection={RayDirection.Up} />
-      <Cell x={0} y={0} rayDirection={RayDirection.UpLeft} />
+      {[
+        [0, 0],
+        [1, 0],
+        [0, 1],
+        [1, 1],
+      ].map(([x, y]) => (
+        <Cell
+          key={`board-index-${x}-${y}`}
+          x={x}
+          y={y}
+          rayDirection={getRayDirection(board, [x, y])}
+        />
+      ))}
     </section>
   );
 }

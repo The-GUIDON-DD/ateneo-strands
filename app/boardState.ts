@@ -1,5 +1,6 @@
 import { findIndex, isDeepEqual } from "remeda";
 import { create, type StateCreator } from "zustand";
+import { RayDirection } from "./types";
 
 type Board = Array<Array<string>>;
 
@@ -87,6 +88,46 @@ export function getCurrentIndex(boardState: BoardState): Index | null {
   return boardState.currentIndices[boardState.currentIndices.length - 1];
 }
 
+export function isAdjacent(i: Index, j: Index) {
+  return Math.abs(i[0] - j[0]) <= 1 && Math.abs(i[1] - j[1]) <= 1;
+}
+
+// TODO: move this to cell?
+export function getConnectingDirection(source: Index, dest: Index) {
+  const xDelta = dest[0] - source[0];
+  const yDelta = dest[1] - source[1];
+
+  if (xDelta === 0) {
+    if (yDelta > 0) {
+      return RayDirection.Down;
+    }
+    if (yDelta < 0) {
+      return RayDirection.Up;
+    }
+    return RayDirection.NONE;
+  } else if (xDelta > 0) {
+    if (yDelta > 0) {
+      return RayDirection.DownRight;
+    }
+    if (yDelta < 0) {
+      return RayDirection.UpRight;
+    }
+    return RayDirection.Right;
+  } else {
+    if (yDelta > 0) {
+      return RayDirection.DownLeft;
+    }
+    if (yDelta < 0) {
+      return RayDirection.UpLeft;
+    }
+    return RayDirection.Left;
+  }
+}
+
+export function resetCurrentIndices(boardState: BoardState) {
+  return { ...boardState, currentIndices: [] };
+}
+
 export function setCurrentIndex(
   boardState: BoardState,
   index: Index,
@@ -115,10 +156,28 @@ export function setCurrentIndex(
   }
 }
 
-export const boardStateCreator: StateCreator<BoardState> = (set) => ({
+export function getRayDirection(
+  boardState: BoardState,
+  index: Index,
+): RayDirection {
+  const foundIndex = findIndex(boardState.currentIndices, (i) =>
+    isDeepEqual(i, index),
+  );
+  if (foundIndex <= 0) {
+    return RayDirection.NONE;
+  }
+  return getConnectingDirection(
+    index,
+    boardState.currentIndices[foundIndex - 1],
+  );
+}
+
+export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   boardData: boards[0],
   currentIndices: [],
   solvedIndices: [],
   setCurrentIndex: (index: Index) =>
     set((state) => setCurrentIndex(state, index)),
 });
+
+export const useBoardStore = create<BoardStore>()(boardStateCreator);
