@@ -10,6 +10,8 @@ export default defineConfig({
   ],
   */
   test: {
+    environment: "jsdom",
+    setupFiles: ["./setup-vitest.ts"],
     coverage: {
       reportsDirectory: "test-coverage",
     },
