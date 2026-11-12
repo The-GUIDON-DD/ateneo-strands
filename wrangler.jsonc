@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ateneo-strands",
-  "compatibility_date": "2026-12-11",
+  "compatibility_date": "2026-11-12",
   "observability": {
     "enabled": true
   },
