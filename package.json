@@ -1,5 +1,5 @@
 {
-  "name": "interactive-template",
+  "name": "ateneo-strands",
   "private": true,
   "type": "module",
   "scripts": {
@@ -42,6 +42,6 @@
     "typescript": "^5.9.3",
     "vite": "^8.0.3",
     "vitest": "^5.1.0",
-    "wrangler": "^4.124.0"
+    "wrangler": "^4.160.0"
   }
 }
