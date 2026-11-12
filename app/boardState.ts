@@ -102,6 +102,9 @@ export function getCurrentIndex(boardState: BoardState): Index | null {
 }
 
 export function isAdjacent(i: Index, j: Index) {
+  if (i[0] < 0 || i[1] < 0 || j[0] < 0 || j[1] < 0) {
+    return false;
+  }
   return Math.abs(i[0] - j[0]) <= 1 && Math.abs(i[1] - j[1]) <= 1;
 }
 

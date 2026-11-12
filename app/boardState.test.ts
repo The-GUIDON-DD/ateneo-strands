@@ -4,6 +4,7 @@ import {
   boards,
   getCurrentIndex,
   getLetterFromIndex,
+  isAdjacent,
   setCurrentIndex,
 } from "./boardState";
 
@@ -95,6 +96,26 @@ describe("Board State indexes", () => {
       expect(getLetterFromIndex(sampleBoardState, [0, 0])).toEqual("L");
       expect(getLetterFromIndex(sampleBoardState, [5, 7])).toEqual("S");
       expect(getLetterFromIndex(sampleBoardState, [3, 2])).toEqual("E");
+    });
+  });
+  describe("isAdjacent", () => {
+    it("invalid indices return False", () => {
+      expect(isAdjacent([0, 0], [-1, 0])).toEqual(false);
+    });
+    it("indices too far return False", () => {
+      expect(isAdjacent([0, 0], [5, 0])).toEqual(false);
+      expect(isAdjacent([0, 0], [0, 5])).toEqual(false);
+      expect(isAdjacent([0, 0], [5, 5])).toEqual(false);
+    });
+    it("adjacent indices return True", () => {
+      expect(isAdjacent([0, 0], [1, 0])).toEqual(true);
+      expect(isAdjacent([0, 0], [0, 1])).toEqual(true);
+      expect(isAdjacent([0, 0], [1, 0])).toEqual(true);
+      expect(isAdjacent([0, 0], [1, 1])).toEqual(true);
+    });
+    it("adjacency is commutative", () => {
+      expect(isAdjacent([0, 0], [1, 1])).toEqual(isAdjacent([1, 1], [0, 0]));
+      expect(isAdjacent([0, 0], [0, 5])).toEqual(isAdjacent([0, 5], [0, 0]));
     });
   });
 });
