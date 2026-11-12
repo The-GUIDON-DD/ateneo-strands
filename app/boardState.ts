@@ -160,6 +160,16 @@ export function setCurrentIndex(
     isDeepEqual(index, i),
   );
   if (lastPosition === -1) {
+    // ignore if not adjacent to last index
+    if (
+      boardState.currentIndices.length > 0 &&
+      !isAdjacent(
+        boardState.currentIndices[boardState.currentIndices.length - 1],
+        index,
+      )
+    ) {
+      return boardState;
+    }
     return {
       ...boardState,
       currentIndices: [...boardState.currentIndices, index],

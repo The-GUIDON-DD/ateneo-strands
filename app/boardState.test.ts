@@ -41,11 +41,18 @@ describe("Board State indexes", () => {
   });
   describe("setCurrentIndex", () => {
     it("append index if not in array", () => {
-      expect(setCurrentIndex(dummyBoardState, [1, 1]).currentIndices).toEqual([
+      expect(setCurrentIndex(dummyBoardState, [6, 7]).currentIndices).toEqual([
         [1, 2],
         [3, 4],
         [5, 6],
-        [1, 1],
+        [6, 7],
+      ]);
+    });
+    it("do not append if index is not adjacent to last", () => {
+      expect(setCurrentIndex(dummyBoardState, [7, 8]).currentIndices).toEqual([
+        [1, 2],
+        [3, 4],
+        [5, 6],
       ]);
     });
     it("rewind currentIndices if index in currentIndices", () => {
