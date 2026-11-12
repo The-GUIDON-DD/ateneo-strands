@@ -6,7 +6,7 @@ type Board = Array<Array<string>>;
 
 export interface BoardData {
   board: Board;
-  words: Array<string>;
+  words: Set<string>;
   spangram: string;
 }
 
@@ -23,7 +23,13 @@ export const boards: BoardData[] = [
       ["S", "U", "T", "I", "M", "A"],
       ["L", "T", "A", "O", "N", "S"],
     ],
-    words: ["MORATORIUM", "ORALS", "CONSULTATIONS", "MATTEO", "REVISE"],
+    words: new Set([
+      "MORATORIUM",
+      "ORALS",
+      "CONSULTATIONS",
+      "MATTEO",
+      "REVISE",
+    ]),
     spangram: "ATENISTA",
   },
   // level two
@@ -38,7 +44,7 @@ export const boards: BoardData[] = [
       ["P", "A", "T", "P", "I", "T"],
       ["O", "L", "I", "H", "C", "S"],
     ],
-    words: [
+    words: new Set([
       "PHILO",
       "NATSCI",
       "SOCSC",
@@ -47,7 +53,7 @@ export const boards: BoardData[] = [
       "INTACT",
       "FLC",
       "THEO",
-    ],
+    ]),
     spangram: "ENLISTED",
   },
   // level three
@@ -62,7 +68,14 @@ export const boards: BoardData[] = [
       ["I", "S", "U", "A", "B", "O"],
       ["C", "R", "O", "O", "M", "D"],
     ],
-    words: ["SOMBA", "ROOFDECK", "FAANNEX", "MUSICROOM", "OLDCOMM", "DOREEN"],
+    words: new Set([
+      "SOMBA",
+      "ROOFDECK",
+      "FAANNEX",
+      "MUSICROOM",
+      "OLDCOMM",
+      "DOREEN",
+    ]),
     spangram: "LOYOLA",
   },
 ];
@@ -90,6 +103,15 @@ export function getLetterFromIndex(
     throw Error("Index beyond bounds of board.");
   }
   return boardState.boardData.board[index[1]][index[0]];
+}
+
+export function doesCurrentChainSolveWord(boardState: BoardState): boolean {
+  const currentIndices = boardState.currentIndices;
+  const word = currentIndices
+    .map((index) => getLetterFromIndex(boardState, index))
+    .join("");
+  console.log("word: ", word);
+  return boardState.boardData.words.has(word);
 }
 
 // read only functions here

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { BoardData, BoardState, Index } from "./boardState";
 import {
   boards,
+  doesCurrentChainSolveWord,
   getConnectingDirection,
   getCurrentIndex,
   getLetterFromIndex,
@@ -13,7 +14,7 @@ import { RayDirection } from "./types";
 
 const emptyBoardData: BoardData = {
   board: [],
-  words: [],
+  words: new Set([]),
   spangram: "",
 };
 const emptyBoardState: BoardState = {
@@ -29,6 +30,11 @@ const dummyBoardState: BoardState = {
     [3, 4],
     [5, 6],
   ],
+};
+
+const sampleBoardState: BoardState = {
+  ...emptyBoardState,
+  boardData: boards[0],
 };
 
 describe("Board State indexes", () => {
@@ -75,10 +81,6 @@ describe("Board State indexes", () => {
     });
   });
   describe("getLetterFromIndex", () => {
-    const sampleBoardState: BoardState = {
-      ...emptyBoardState,
-      boardData: boards[0],
-    };
     it("invalid index throws an error -- negative indices", async () => {
       // has to be async for await/throw check to work
       await expect(async () =>
@@ -173,6 +175,34 @@ describe("Board State indexes", () => {
       expect(getRayDirection(dummyBoardState, [5, 6])).toBe(
         RayDirection.UpLeft,
       );
+    });
+  });
+});
+describe("Board State Chains", () => {
+  describe("doesCurrentChainSolveWord", () => {
+    it("doesCurrentChainSolveWord -- valid indices", () => {
+      const testBoardState = {
+        ...sampleBoardState,
+        currentIndices: [
+          [3, 1],
+          [2, 0],
+          [1, 0],
+          [0, 0],
+          [0, 1],
+        ] as Index[],
+      };
+      expect(doesCurrentChainSolveWord(testBoardState)).toBe(true);
+    });
+    it("doesCurrentChainSolveWord -- invalid indices", () => {
+      const testBoardState = {
+        ...sampleBoardState,
+        currentIndices: [
+          [1, 0],
+          [1, 1],
+          [2, 1],
+        ] as Index[],
+      };
+      expect(doesCurrentChainSolveWord(testBoardState)).toBe(false);
     });
   });
 });
