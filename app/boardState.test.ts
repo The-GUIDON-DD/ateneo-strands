@@ -2,11 +2,14 @@ import { describe, expect, it } from "vitest";
 import type { BoardData, BoardState, Index } from "./boardState";
 import {
   boards,
+  getConnectingDirection,
   getCurrentIndex,
   getLetterFromIndex,
+  getRayDirection,
   isAdjacent,
   setCurrentIndex,
 } from "./boardState";
+import { RayDirection } from "./types";
 
 const emptyBoardData: BoardData = {
   board: [],
@@ -123,6 +126,53 @@ describe("Board State indexes", () => {
     it("adjacency is commutative", () => {
       expect(isAdjacent([0, 0], [1, 1])).toEqual(isAdjacent([1, 1], [0, 0]));
       expect(isAdjacent([0, 0], [0, 5])).toEqual(isAdjacent([0, 5], [0, 0]));
+    });
+  });
+  describe("getConnectingDirection", () => {
+    it("Up", () => {
+      expect(getConnectingDirection([0, 0], [0, -5])).toBe(RayDirection.Up);
+    });
+    it("Down", () => {
+      expect(getConnectingDirection([0, 0], [0, 5])).toBe(RayDirection.Down);
+    });
+    it("Left", () => {
+      expect(getConnectingDirection([0, 0], [-5, 0])).toBe(RayDirection.Left);
+    });
+    it("Right", () => {
+      expect(getConnectingDirection([0, 0], [5, 0])).toBe(RayDirection.Right);
+    });
+    it("UpRight", () => {
+      expect(getConnectingDirection([0, 0], [5, -5])).toBe(
+        RayDirection.UpRight,
+      );
+    });
+    it("UpLeft", () => {
+      expect(getConnectingDirection([0, 0], [-5, -5])).toBe(
+        RayDirection.UpLeft,
+      );
+    });
+    it("DownRight", () => {
+      expect(getConnectingDirection([0, 0], [5, 5])).toBe(
+        RayDirection.DownRight,
+      );
+    });
+    it("DownLeft", () => {
+      expect(getConnectingDirection([0, 0], [-5, 5])).toBe(
+        RayDirection.DownLeft,
+      );
+    });
+    it("NONE", () => {
+      expect(getConnectingDirection([5, 5], [5, 5])).toBe(RayDirection.NONE);
+    });
+  });
+  describe("getRayDirection", () => {
+    it("index not in currentIndices", () => {
+      expect(getRayDirection(dummyBoardState, [6, 7])).toBe(RayDirection.NONE);
+    });
+    it("index in currentIndices", () => {
+      expect(getRayDirection(dummyBoardState, [5, 6])).toBe(
+        RayDirection.UpLeft,
+      );
     });
   });
 });

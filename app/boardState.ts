@@ -186,6 +186,7 @@ export function getRayDirection(
   boardState: BoardState,
   index: Index,
 ): RayDirection {
+  // can only be used on indices already in currentIndices
   const foundIndex = findIndex(boardState.currentIndices, (i) =>
     isDeepEqual(i, index),
   );
