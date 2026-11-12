@@ -12,7 +12,8 @@
     "test": "vitest",
     "deploy": "pnpm run build && wrangler deploy",
     "preview": "pnpm run build && wrangler dev",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "knip": "knip"
   },
   "dependencies": {
     "@react-router/node": "^8",
@@ -37,6 +38,7 @@
     "@types/react-dom": "^19.2.3",
     "isbot": "^5.2.1",
     "jsdom": "^31.0.0",
+    "knip": "^6.45.0",
     "lefthook": "^2.1.10",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
