@@ -1,22 +1,33 @@
 import { describe, expect, it } from "vitest";
 import type { BoardData, BoardState, Index } from "./boardState";
-import { getCurrentIndex, setCurrentIndex } from "./boardState";
+import {
+  boards,
+  getCurrentIndex,
+  getLetterFromIndex,
+  setCurrentIndex,
+} from "./boardState";
+
+const emptyBoardData: BoardData = {
+  board: [],
+  words: [],
+  spangram: "",
+};
+const emptyBoardState: BoardState = {
+  boardData: emptyBoardData,
+  currentIndices: [],
+  solvedIndices: [],
+  solvedChains: [],
+};
+const dummyBoardState: BoardState = {
+  ...emptyBoardState,
+  currentIndices: [
+    [1, 2],
+    [3, 4],
+    [5, 6],
+  ],
+};
 
 describe("Board State indexes", () => {
-  const emptyBoardData: BoardData = {
-    board: [],
-    words: [],
-    spangram: "",
-  };
-  const dummyBoardState: BoardState = {
-    boardData: emptyBoardData,
-    currentIndices: [
-      [1, 2],
-      [3, 4],
-      [5, 6],
-    ],
-    solvedIndices: [],
-  };
   describe("getCurrentIndex", () => {
     it("getCurrentIndex returns the last index in the currentIndices array", () => {
       expect(getCurrentIndex(dummyBoardState)).toEqual([5, 6]);
@@ -50,6 +61,40 @@ describe("Board State indexes", () => {
       expect(setCurrentIndex(solvedBoardState, [6, 7])).toEqual(
         solvedBoardState,
       );
+    });
+  });
+  describe("getLetterFromIndex", () => {
+    const sampleBoardState: BoardState = {
+      ...emptyBoardState,
+      boardData: boards[0],
+    };
+    it("invalid index throws an error -- negative indices", async () => {
+      // has to be async for await/throw check to work
+      await expect(async () =>
+        getLetterFromIndex(sampleBoardState, [-1, -1]),
+      ).rejects.toThrow();
+      await expect(async () =>
+        getLetterFromIndex(sampleBoardState, [-1, 1]),
+      ).rejects.toThrow();
+      await expect(async () =>
+        getLetterFromIndex(sampleBoardState, [1, -1]),
+      ).rejects.toThrow();
+    });
+    it("invalid index throws an error -- out of bounds", async () => {
+      await expect(async () =>
+        getLetterFromIndex(sampleBoardState, [6, 0]),
+      ).rejects.toThrow();
+      await expect(async () =>
+        getLetterFromIndex(sampleBoardState, [0, 8]),
+      ).rejects.toThrow();
+      await expect(async () =>
+        getLetterFromIndex(sampleBoardState, [6, 8]),
+      ).rejects.toThrow();
+    });
+    it("valid index returns the correct letter", () => {
+      expect(getLetterFromIndex(sampleBoardState, [0, 0])).toEqual("L");
+      expect(getLetterFromIndex(sampleBoardState, [5, 7])).toEqual("S");
+      expect(getLetterFromIndex(sampleBoardState, [3, 2])).toEqual("E");
     });
   });
 });

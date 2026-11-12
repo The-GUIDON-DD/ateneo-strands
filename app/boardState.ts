@@ -10,7 +10,7 @@ export interface BoardData {
   spangram: string;
 }
 
-const boards: BoardData[] = [
+export const boards: BoardData[] = [
   // level one
   {
     board: [
@@ -71,12 +71,25 @@ export type Index = [number, number];
 
 export interface BoardState {
   boardData: BoardData;
-  currentIndices: Index[];
-  solvedIndices: Index[];
+  currentIndices: Array<Index>;
+  solvedIndices: Array<Index>;
+  solvedChains: Array<Array<Index>>;
 }
 
 export interface BoardStore extends BoardState {
   setCurrentIndex: (index: Index) => void;
+}
+
+export function getLetterFromIndex(
+  boardState: BoardState,
+  index: Index,
+): string {
+  const xDim = boardState.boardData.board[0].length;
+  const yDim = boardState.boardData.board.length;
+  if (index[0] < 0 || index[0] >= xDim || index[1] < 0 || index[1] >= yDim) {
+    throw Error("Index beyond bounds of board.");
+  }
+  return boardState.boardData.board[index[1]][index[0]];
 }
 
 // read only functions here
@@ -176,6 +189,7 @@ export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   boardData: boards[0],
   currentIndices: [],
   solvedIndices: [],
+  solvedChains: [],
   setCurrentIndex: (index: Index) =>
     set((state) => setCurrentIndex(state, index)),
 });
