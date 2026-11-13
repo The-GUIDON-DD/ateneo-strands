@@ -26,6 +26,9 @@ function Letter({
   color: string;
 }) {
   const setCurrentIndex = useBoardStore((state) => state.setCurrentIndex);
+  const resetCurrentIndices = useBoardStore(
+    (state) => state.resetCurrentIndices,
+  );
 
   function addCellDrag(event: React.MouseEvent) {
     // trigger only if lmb is down
@@ -46,7 +49,9 @@ function Letter({
         background: colors["cell"][color as keyof typeof colors.cell],
       }}
       onClick={addCell}
+      onMouseDown={addCell}
       onMouseEnter={addCellDrag}
+      onMouseUp={resetCurrentIndices}
     >
       <p className="text-black font-bold text-xl uppercase">{letter[0]}</p>
     </button>

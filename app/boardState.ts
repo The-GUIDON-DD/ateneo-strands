@@ -6,8 +6,8 @@ type Board = Array<Array<string>>;
 
 export interface BoardData {
   board: Board;
-  words: Set<string>;
-  spangram: string;
+  words: Array<Array<Index>>;
+  spangram: Array<Index>;
 }
 
 export const boards: BoardData[] = [
@@ -23,14 +23,68 @@ export const boards: BoardData[] = [
       ["S", "U", "T", "I", "M", "A"],
       ["L", "T", "A", "O", "N", "S"],
     ],
-    words: new Set([
-      "MORATORIUM",
-      "ORALS",
-      "CONSULTATIONS",
-      "MATTEO",
-      "REVISE",
-    ]),
-    spangram: "ATENEANS",
+    words: [
+      [
+        [3, 3],
+        [4, 3],
+        [5, 3],
+        [4, 2],
+        [5, 2],
+        [5, 1],
+        [4, 1],
+        [5, 0],
+        [4, 0],
+        [3, 0],
+      ], // MORATORIUM
+      [
+        [3, 1],
+        [2, 0],
+        [1, 0],
+        [0, 0],
+        [0, 1],
+      ], // ORALS
+      [
+        [0, 3],
+        [0, 4],
+        [0, 5],
+        [0, 6],
+        [1, 6],
+        [0, 7],
+        [1, 7],
+        [2, 7],
+        [2, 6],
+        [3, 6],
+        [3, 7],
+        [4, 7],
+        [5, 7],
+      ], // CONSULTATIONS
+      [
+        [4, 6],
+        [5, 6],
+        [5, 5],
+        [4, 5],
+        [3, 5],
+        [2, 4],
+      ], // MATTEO
+      [
+        [2, 5],
+        [1, 5],
+        [1, 4],
+        [1, 3],
+        [1, 2],
+        [2, 2],
+      ], // REVISE
+    ],
+    spangram: [
+      [5, 4],
+      [4, 4],
+      [3, 4],
+      [2, 3],
+      [3, 2],
+      [2, 1],
+      [1, 1],
+      [0, 2],
+    ], // ATENEANS,
   },
   // level two
   {
@@ -44,17 +98,74 @@ export const boards: BoardData[] = [
       ["P", "A", "T", "P", "I", "T"],
       ["O", "L", "I", "H", "C", "S"],
     ],
-    words: new Set([
-      "PHILO",
-      "NATSCI",
-      "SOCSC",
-      "PATHFIT",
-      "MATH",
-      "INTACT",
-      "FLC",
-      "THEO",
-    ]),
-    spangram: "ENLISTED",
+    words: [
+      [
+        [3, 6],
+        [3, 7],
+        [2, 7],
+        [1, 7],
+        [0, 7],
+      ], // PHILO
+      [
+        [4, 5],
+        [5, 5],
+        [5, 6],
+        [5, 7],
+        [4, 7],
+        [4, 6],
+      ], // NATSCI
+      [
+        [2, 2],
+        [2, 3],
+        [3, 3],
+        [4, 3],
+        [5, 3],
+      ], // SOCSC
+      [
+        [0, 6],
+        [1, 6],
+        [2, 6],
+        [3, 5],
+        [2, 5],
+        [1, 5],
+        [1, 4],
+      ], // PATHFIT
+      [
+        [5, 2],
+        [4, 1],
+        [5, 1],
+        [5, 0],
+      ], // MATH
+      [
+        [1, 0],
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 2],
+        [1, 1],
+      ], // INTACT
+      [
+        [4, 2],
+        [3, 2],
+        [3, 1],
+      ], // FLC
+      [
+        [4, 0],
+        [3, 0],
+        [2, 0],
+        [2, 1],
+      ], // THEO
+    ],
+    spangram: [
+      [5, 4],
+      [4, 4],
+      [3, 4],
+      [2, 4],
+      [1, 3],
+      [0, 3],
+      [0, 4],
+      [0, 5],
+    ], // ENLISTED
   },
   // level three
   {
@@ -68,15 +179,70 @@ export const boards: BoardData[] = [
       ["I", "S", "U", "A", "B", "O"],
       ["C", "R", "O", "O", "M", "D"],
     ],
-    words: new Set([
-      "SOMBA",
-      "ROOFDECK",
-      "FAANNEX",
-      "MUSICROOM",
-      "OLDCOMM",
-      "DOREEN",
-    ]),
-    spangram: "LOYOLA",
+    words: [
+      [
+        [3, 4],
+        [3, 5],
+        [4, 5],
+        [4, 6],
+        [3, 6],
+      ], // SOMBA
+      [
+        [4, 2],
+        [3, 2],
+        [2, 2],
+        [2, 3],
+        [1, 3],
+        [0, 3],
+        [1, 4],
+        [0, 4],
+      ], // ROOFDECK
+      [
+        [0, 2],
+        [1, 2],
+        [0, 1],
+        [0, 0],
+        [1, 0],
+        [2, 0],
+        [1, 1],
+      ], // FAANNEX
+      [
+        [2, 5],
+        [2, 6],
+        [1, 6],
+        [0, 6],
+        [0, 7],
+        [1, 7],
+        [2, 7],
+        [3, 7],
+        [4, 7],
+      ], // MUSICROOM
+      [
+        [2, 1],
+        [3, 1],
+        [4, 1],
+        [3, 0],
+        [4, 0],
+        [5, 0],
+        [5, 1],
+      ], // OLDCOMM
+      [
+        [5, 7],
+        [5, 6],
+        [5, 5],
+        [4, 4],
+        [5, 4],
+        [5, 3],
+      ], // DOREEN
+    ],
+    spangram: [
+      [5, 2],
+      [4, 3],
+      [3, 3],
+      [2, 4],
+      [1, 5],
+      [0, 5],
+    ], // LOYOLA
   },
 ];
 
@@ -91,6 +257,7 @@ export interface BoardState {
 
 export interface BoardStore extends BoardState {
   setCurrentIndex: (index: Index) => void;
+  resetCurrentIndices: () => void;
 }
 
 export function getLetterFromIndex(
@@ -107,18 +274,14 @@ export function getLetterFromIndex(
 
 export function doesCurrentChainSolveWord(boardState: BoardState): boolean {
   const currentIndices = boardState.currentIndices;
-  const word = currentIndices
-    .map((index) => getLetterFromIndex(boardState, index))
-    .join("");
-  return boardState.boardData.words.has(word);
+  return !!boardState.boardData.words.find((word) =>
+    isDeepEqual(word, currentIndices),
+  );
 }
 
 export function doesCurrentChainSolveSpangram(boardState: BoardState): boolean {
   const currentIndices = boardState.currentIndices;
-  const word = currentIndices
-    .map((index) => getLetterFromIndex(boardState, index))
-    .join("");
-  return boardState.boardData.spangram === word;
+  return isDeepEqual(boardState.boardData.spangram, currentIndices);
 }
 
 export function getChainFromIndex(
@@ -245,6 +408,13 @@ export function setCurrentIndex(
       ...boardState,
       currentIndices: [...boardState.currentIndices, index],
     };
+  } else if (
+    isDeepEqual(
+      index,
+      boardState.currentIndices[boardState.currentIndices.length - 1],
+    )
+  ) {
+    return resetCurrentIndices(boardState);
   } else {
     return {
       ...boardState,
@@ -290,6 +460,7 @@ export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   solvedSpangramChain: [],
   setCurrentIndex: (index: Index) =>
     set((state) => confirmChain(setCurrentIndex(state, index))),
+  resetCurrentIndices: () => set((state) => resetCurrentIndices(state)),
 });
 
 export const useBoardStore = create<BoardStore>()(boardStateCreator);

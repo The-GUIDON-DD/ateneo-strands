@@ -245,10 +245,10 @@ describe("Board State Chains", () => {
           [4, 4],
           [3, 4],
           [2, 3],
-          [2, 2],
+          [3, 2],
           [2, 1],
           [1, 1],
-          [0, 1],
+          [0, 2],
         ] as Index[],
       };
       expect(doesCurrentChainSolveSpangram(testBoardState)).toBe(true);
