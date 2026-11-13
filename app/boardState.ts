@@ -262,10 +262,25 @@ export function getRayDirection(
   if (foundIndex <= 0) {
     return RayDirection.NONE;
   }
-  return getConnectingDirection(
-    index,
-    boardState.currentIndices[foundIndex - 1],
-  );
+  return getConnectingDirection(index, chain[foundIndex - 1]);
+}
+
+function confirmChain(boardState: BoardState): BoardState {
+  if (doesCurrentChainSolveWord(boardState)) {
+    return {
+      ...boardState,
+      solvedChains: [...boardState.solvedChains, boardState.currentIndices],
+      currentIndices: [],
+    };
+  } else if (doesCurrentChainSolveSpangram(boardState)) {
+    return {
+      ...boardState,
+      solvedSpangramChain: boardState.currentIndices,
+      currentIndices: [],
+    };
+  } else {
+    return boardState;
+  }
 }
 
 export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
@@ -274,7 +289,7 @@ export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   solvedChains: [],
   solvedSpangramChain: [],
   setCurrentIndex: (index: Index) =>
-    set((state) => setCurrentIndex(state, index)),
+    set((state) => confirmChain(setCurrentIndex(state, index))),
 });
 
 export const useBoardStore = create<BoardStore>()(boardStateCreator);
