@@ -12,3 +12,4 @@
 !.dev.vars.example
 !.env.example
 .vitest/
+test-coverage/

@@ -6,11 +6,11 @@ type Board = Array<Array<string>>;
 
 export interface BoardData {
   board: Board;
-  words: Array<string>;
-  spangram: string;
+  words: Array<Array<Index>>;
+  spangram: Array<Index>;
 }
 
-const boards: BoardData[] = [
+export const boards: BoardData[] = [
   // level one
   {
     board: [
@@ -23,8 +23,68 @@ const boards: BoardData[] = [
       ["S", "U", "T", "I", "M", "A"],
       ["L", "T", "A", "O", "N", "S"],
     ],
-    words: ["MORATORIUM", "ORALS", "CONSULTATIONS", "MATTEO", "REVISE"],
-    spangram: "ATENISTA",
+    words: [
+      [
+        [3, 3],
+        [4, 3],
+        [5, 3],
+        [4, 2],
+        [5, 2],
+        [5, 1],
+        [4, 1],
+        [5, 0],
+        [4, 0],
+        [3, 0],
+      ], // MORATORIUM
+      [
+        [3, 1],
+        [2, 0],
+        [1, 0],
+        [0, 0],
+        [0, 1],
+      ], // ORALS
+      [
+        [0, 3],
+        [0, 4],
+        [0, 5],
+        [0, 6],
+        [1, 6],
+        [0, 7],
+        [1, 7],
+        [2, 7],
+        [2, 6],
+        [3, 6],
+        [3, 7],
+        [4, 7],
+        [5, 7],
+      ], // CONSULTATIONS
+      [
+        [4, 6],
+        [5, 6],
+        [5, 5],
+        [4, 5],
+        [3, 5],
+        [2, 4],
+      ], // MATTEO
+      [
+        [2, 5],
+        [1, 5],
+        [1, 4],
+        [1, 3],
+        [1, 2],
+        [2, 2],
+      ], // REVISE
+    ],
+    spangram: [
+      [5, 4],
+      [4, 4],
+      [3, 4],
+      [2, 3],
+      [3, 2],
+      [2, 1],
+      [1, 1],
+      [0, 2],
+    ], // ATENEANS,
   },
   // level two
   {
@@ -39,16 +99,73 @@ const boards: BoardData[] = [
       ["O", "L", "I", "H", "C", "S"],
     ],
     words: [
-      "PHILO",
-      "NATSCI",
-      "SOCSC",
-      "PATHFIT",
-      "MATH",
-      "INTACT",
-      "FLC",
-      "THEO",
+      [
+        [3, 6],
+        [3, 7],
+        [2, 7],
+        [1, 7],
+        [0, 7],
+      ], // PHILO
+      [
+        [4, 5],
+        [5, 5],
+        [5, 6],
+        [5, 7],
+        [4, 7],
+        [4, 6],
+      ], // NATSCI
+      [
+        [2, 2],
+        [2, 3],
+        [3, 3],
+        [4, 3],
+        [5, 3],
+      ], // SOCSC
+      [
+        [0, 6],
+        [1, 6],
+        [2, 6],
+        [3, 5],
+        [2, 5],
+        [1, 5],
+        [1, 4],
+      ], // PATHFIT
+      [
+        [5, 2],
+        [4, 1],
+        [5, 1],
+        [5, 0],
+      ], // MATH
+      [
+        [1, 0],
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 2],
+        [1, 1],
+      ], // INTACT
+      [
+        [4, 2],
+        [3, 2],
+        [3, 1],
+      ], // FLC
+      [
+        [4, 0],
+        [3, 0],
+        [2, 0],
+        [2, 1],
+      ], // THEO
     ],
-    spangram: "ENLISTED",
+    spangram: [
+      [5, 4],
+      [4, 4],
+      [3, 4],
+      [2, 4],
+      [1, 3],
+      [0, 3],
+      [0, 4],
+      [0, 5],
+    ], // ENLISTED
   },
   // level three
   {
@@ -62,8 +179,70 @@ const boards: BoardData[] = [
       ["I", "S", "U", "A", "B", "O"],
       ["C", "R", "O", "O", "M", "D"],
     ],
-    words: ["SOMBA", "ROOFDECK", "FAANNEX", "MUSICROOM", "OLDCOMM", "DOREEN"],
-    spangram: "LOYOLA",
+    words: [
+      [
+        [3, 4],
+        [3, 5],
+        [4, 5],
+        [4, 6],
+        [3, 6],
+      ], // SOMBA
+      [
+        [4, 2],
+        [3, 2],
+        [2, 2],
+        [2, 3],
+        [1, 3],
+        [0, 3],
+        [1, 4],
+        [0, 4],
+      ], // ROOFDECK
+      [
+        [0, 2],
+        [1, 2],
+        [0, 1],
+        [0, 0],
+        [1, 0],
+        [2, 0],
+        [1, 1],
+      ], // FAANNEX
+      [
+        [2, 5],
+        [2, 6],
+        [1, 6],
+        [0, 6],
+        [0, 7],
+        [1, 7],
+        [2, 7],
+        [3, 7],
+        [4, 7],
+      ], // MUSICROOM
+      [
+        [2, 1],
+        [3, 1],
+        [4, 1],
+        [3, 0],
+        [4, 0],
+        [5, 0],
+        [5, 1],
+      ], // OLDCOMM
+      [
+        [5, 7],
+        [5, 6],
+        [5, 5],
+        [4, 4],
+        [5, 4],
+        [5, 3],
+      ], // DOREEN
+    ],
+    spangram: [
+      [5, 2],
+      [4, 3],
+      [3, 3],
+      [2, 4],
+      [1, 5],
+      [0, 5],
+    ], // LOYOLA
   },
 ];
 
@@ -71,12 +250,80 @@ export type Index = [number, number];
 
 export interface BoardState {
   boardData: BoardData;
-  currentIndices: Index[];
-  solvedIndices: Index[];
+  currentIndices: Array<Index>;
+  solvedChains: Array<Array<Index>>;
+  solvedSpangramChain: Array<Index>;
 }
 
 export interface BoardStore extends BoardState {
   setCurrentIndex: (index: Index) => void;
+  resetCurrentIndices: () => void;
+}
+
+export function getLetterFromIndex(
+  boardState: BoardState,
+  index: Index,
+): string {
+  const xDim = boardState.boardData.board[0].length;
+  const yDim = boardState.boardData.board.length;
+  if (index[0] < 0 || index[0] >= xDim || index[1] < 0 || index[1] >= yDim) {
+    throw Error("Index beyond bounds of board.");
+  }
+  return boardState.boardData.board[index[1]][index[0]];
+}
+
+export function doesCurrentChainSolveWord(boardState: BoardState): boolean {
+  const currentIndices = boardState.currentIndices;
+  return !!boardState.boardData.words.find((word) =>
+    isDeepEqual(word, currentIndices),
+  );
+}
+
+export function doesCurrentChainSolveSpangram(boardState: BoardState): boolean {
+  const currentIndices = boardState.currentIndices;
+  return isDeepEqual(boardState.boardData.spangram, currentIndices);
+}
+
+export function getChainFromIndex(
+  boardState: BoardState,
+  index: Index,
+): Array<Index> {
+  // if in current indices, solved chains or spangram chain, return that chain
+  if (boardState.currentIndices.find((i) => isDeepEqual(i, index))) {
+    return boardState.currentIndices;
+  } else if (
+    boardState.solvedSpangramChain.find((i) => isDeepEqual(i, index))
+  ) {
+    return boardState.solvedSpangramChain;
+  } else {
+    for (const chain of boardState.solvedChains) {
+      if (chain.find((i) => isDeepEqual(i, index))) {
+        return chain;
+      }
+    }
+  }
+  return [];
+}
+
+export function getColorFromIndex(
+  boardState: BoardState,
+  index: Index,
+): string {
+  // if in current indices, solved chains or spangram chain, return that chain
+  if (boardState.currentIndices.find((i) => isDeepEqual(i, index))) {
+    return "currentIndices";
+  } else if (
+    boardState.solvedSpangramChain.find((i) => isDeepEqual(i, index))
+  ) {
+    return "spangram";
+  } else {
+    for (const chain of boardState.solvedChains) {
+      if (chain.find((i) => isDeepEqual(i, index))) {
+        return "solvedChains";
+      }
+    }
+  }
+  return "none";
 }
 
 // read only functions here
@@ -89,10 +336,12 @@ export function getCurrentIndex(boardState: BoardState): Index | null {
 }
 
 export function isAdjacent(i: Index, j: Index) {
+  if (i[0] < 0 || i[1] < 0 || j[0] < 0 || j[1] < 0) {
+    return false;
+  }
   return Math.abs(i[0] - j[0]) <= 1 && Math.abs(i[1] - j[1]) <= 1;
 }
 
-// TODO: move this to cell?
 export function getConnectingDirection(source: Index, dest: Index) {
   const xDelta = dest[0] - source[0];
   const yDelta = dest[1] - source[1];
@@ -134,7 +383,8 @@ export function setCurrentIndex(
 ): BoardState {
   // ignore if in solved indices
   if (
-    findIndex(boardState.solvedIndices, (i) => isDeepEqual(index, i)) !== -1
+    getColorFromIndex(boardState, index) === "spangram" ||
+    getColorFromIndex(boardState, index) === "solvedChains"
   ) {
     return boardState;
   }
@@ -144,10 +394,27 @@ export function setCurrentIndex(
     isDeepEqual(index, i),
   );
   if (lastPosition === -1) {
+    // ignore if not adjacent to last index
+    if (
+      boardState.currentIndices.length > 0 &&
+      !isAdjacent(
+        boardState.currentIndices[boardState.currentIndices.length - 1],
+        index,
+      )
+    ) {
+      return boardState;
+    }
     return {
       ...boardState,
       currentIndices: [...boardState.currentIndices, index],
     };
+  } else if (
+    isDeepEqual(
+      index,
+      boardState.currentIndices[boardState.currentIndices.length - 1],
+    )
+  ) {
+    return resetCurrentIndices(boardState);
   } else {
     return {
       ...boardState,
@@ -160,24 +427,48 @@ export function getRayDirection(
   boardState: BoardState,
   index: Index,
 ): RayDirection {
-  const foundIndex = findIndex(boardState.currentIndices, (i) =>
-    isDeepEqual(i, index),
-  );
+  const chain = getChainFromIndex(boardState, index);
+  const foundIndex = findIndex(chain, (i) => isDeepEqual(i, index));
   if (foundIndex <= 0) {
     return RayDirection.NONE;
   }
-  return getConnectingDirection(
-    index,
-    boardState.currentIndices[foundIndex - 1],
+  return getConnectingDirection(index, chain[foundIndex - 1]);
+}
+
+function confirmChain(boardState: BoardState): BoardState {
+  if (doesCurrentChainSolveWord(boardState)) {
+    return {
+      ...boardState,
+      solvedChains: [...boardState.solvedChains, boardState.currentIndices],
+      currentIndices: [],
+    };
+  } else if (doesCurrentChainSolveSpangram(boardState)) {
+    return {
+      ...boardState,
+      solvedSpangramChain: boardState.currentIndices,
+      currentIndices: [],
+    };
+  } else {
+    return boardState;
+  }
+}
+
+export function boardStateWin(boardState: BoardState): boolean {
+  return (
+    boardState.solvedSpangramChain.length ===
+      boardState.boardData.spangram.length &&
+    boardState.solvedChains.length === boardState.boardData.words.length
   );
 }
 
 export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   boardData: boards[0],
   currentIndices: [],
-  solvedIndices: [],
+  solvedChains: [],
+  solvedSpangramChain: [],
   setCurrentIndex: (index: Index) =>
-    set((state) => setCurrentIndex(state, index)),
+    set((state) => confirmChain(setCurrentIndex(state, index))),
+  resetCurrentIndices: () => set((state) => resetCurrentIndices(state)),
 });
 
 export const useBoardStore = create<BoardStore>()(boardStateCreator);

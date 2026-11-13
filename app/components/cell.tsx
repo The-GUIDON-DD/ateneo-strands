@@ -1,18 +1,34 @@
 import { type Index, useBoardStore } from "~/boardState";
 import { RayDirection } from "~/types";
 
+const colors = {
+  cell: {
+    spangram: "#ede32d",
+    currentIndices: "#cccccc",
+    none: "transparent",
+    solvedChains: "#98e2da",
+  },
+  ray: {
+    spangram: "#ede32d",
+    currentIndices: "#cccccc",
+    none: "transparent",
+    solvedChains: "#98e2da",
+  },
+};
+
 function Letter({
-  isSelected,
-  isSolved,
   letter,
   index,
+  color,
 }: {
-  isSelected: boolean;
-  isSolved: boolean;
   letter: string;
   index: Index;
+  color: string;
 }) {
   const setCurrentIndex = useBoardStore((state) => state.setCurrentIndex);
+  const resetCurrentIndices = useBoardStore(
+    (state) => state.resetCurrentIndices,
+  );
 
   function addCellDrag(event: React.MouseEvent) {
     // trigger only if lmb is down
@@ -29,15 +45,13 @@ function Letter({
       type="button"
       className="size-full flex items-center justify-center rounded-full relative"
       style={{
-        background: isSelected
-          ? isSolved
-            ? `var(--solved)`
-            : "#cccccc"
-          : "transparent",
         zIndex: 50,
+        background: colors["cell"][color as keyof typeof colors.cell],
       }}
       onClick={addCell}
+      onMouseDown={addCell}
       onMouseEnter={addCellDrag}
+      onMouseUp={resetCurrentIndices}
     >
       <p className="text-black font-bold text-xl uppercase">{letter[0]}</p>
     </button>
@@ -45,13 +59,11 @@ function Letter({
 }
 
 function Ray({
-  isSelected,
-  isSolved,
   rayDirection,
+  color,
 }: {
-  isSelected: boolean;
-  isSolved: boolean;
   rayDirection: RayDirection;
+  color: string;
 }) {
   if (rayDirection === RayDirection.NONE) {
     return null;
@@ -64,13 +76,9 @@ function Ray({
   ]);
   return (
     <div
-      className="absolute border-8 left-[50%] top-[50%] origin-left"
+      className="absolute border-8 left-[50%] top-[calc(50%-8px)] origin-left"
       style={{
-        borderColor: isSelected
-          ? isSolved
-            ? `var(--solved)`
-            : "#cccccc"
-          : "transparent",
+        borderColor: colors["ray"][color as keyof typeof colors.ray],
         rotate: `${rayDirection}deg`,
         width: tiltDirs.has(rayDirection) ? "calc(sqrt(2)*100%)" : "100%",
         zIndex: 0,
@@ -83,15 +91,22 @@ export default function Cell({
   x,
   y,
   rayDirection,
+  color,
+  letter,
 }: {
   x: number;
   y: number;
   rayDirection: RayDirection;
+  color: string;
+  letter: string;
 }) {
   return (
-    <div className="size-full p-[20%] relative border-none">
-      <Ray isSelected={true} isSolved={false} rayDirection={rayDirection} />
-      <Letter isSelected={true} isSolved={false} letter="A" index={[x, y]} />
+    <div
+      className="size-full p-[20%] relative border-none"
+      style={{ gridColumn: x + 1, gridRow: y + 1 }}
+    >
+      <Ray color={color} rayDirection={rayDirection} />
+      <Letter color={color} letter={letter} index={[x, y]} />
     </div>
   );
 }

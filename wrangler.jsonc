@@ -1,10 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ateneo-strands",
-  "compatibility_date": "2026-11-12",
-  "observability": {
-    "enabled": true
-  },
+  "name": "vantmag-react",
   "main": "./workers/app.ts",
-  "previews": {}
+  "compatibility_date": "2026-11-13",
+  "previews": {},
 }

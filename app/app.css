@@ -4,7 +4,10 @@
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --solved: #ede32d;
+  --spangram: #ede32d;
+  --currentIndices: #cccccc;
+  --solvedChains: #98e2da;
+  --none: transparent;
 }
 
 html,
