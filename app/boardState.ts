@@ -85,7 +85,6 @@ export type Index = [number, number];
 export interface BoardState {
   boardData: BoardData;
   currentIndices: Array<Index>;
-  solvedIndices: Array<Index>;
   solvedChains: Array<Array<Index>>;
   solvedSpangramChain: Array<Index>;
 }
@@ -147,7 +146,21 @@ export function getColorFromIndex(
   boardState: BoardState,
   index: Index,
 ): string {
-  return "";
+  // if in current indices, solved chains or spangram chain, return that chain
+  if (boardState.currentIndices.find((i) => isDeepEqual(i, index))) {
+    return "currentIndices";
+  } else if (
+    boardState.solvedSpangramChain.find((i) => isDeepEqual(i, index))
+  ) {
+    return "spangram";
+  } else {
+    for (const chain of boardState.solvedChains) {
+      if (chain.find((i) => isDeepEqual(i, index))) {
+        return "solvedChains";
+      }
+    }
+  }
+  return "none";
 }
 
 // read only functions here
@@ -207,7 +220,8 @@ export function setCurrentIndex(
 ): BoardState {
   // ignore if in solved indices
   if (
-    findIndex(boardState.solvedIndices, (i) => isDeepEqual(index, i)) !== -1
+    getColorFromIndex(boardState, index) === "spangram" ||
+    getColorFromIndex(boardState, index) === "solvedChains"
   ) {
     return boardState;
   }
@@ -243,10 +257,8 @@ export function getRayDirection(
   boardState: BoardState,
   index: Index,
 ): RayDirection {
-  // can only be used on indices already in currentIndices
-  const foundIndex = findIndex(boardState.currentIndices, (i) =>
-    isDeepEqual(i, index),
-  );
+  const chain = getChainFromIndex(boardState, index);
+  const foundIndex = findIndex(chain, (i) => isDeepEqual(i, index));
   if (foundIndex <= 0) {
     return RayDirection.NONE;
   }
@@ -259,8 +271,8 @@ export function getRayDirection(
 export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   boardData: boards[0],
   currentIndices: [],
-  solvedIndices: [],
   solvedChains: [],
+  solvedSpangramChain: [],
   setCurrentIndex: (index: Index) =>
     set((state) => setCurrentIndex(state, index)),
 });

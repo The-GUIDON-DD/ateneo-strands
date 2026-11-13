@@ -5,6 +5,7 @@ import {
   doesCurrentChainSolveSpangram,
   doesCurrentChainSolveWord,
   getChainFromIndex,
+  getColorFromIndex,
   getConnectingDirection,
   getCurrentIndex,
   getLetterFromIndex,
@@ -22,7 +23,6 @@ const emptyBoardData: BoardData = {
 const emptyBoardState: BoardState = {
   boardData: emptyBoardData,
   currentIndices: [],
-  solvedIndices: [],
   solvedChains: [],
   solvedSpangramChain: [],
 };
@@ -76,9 +76,13 @@ describe("Board State indexes", () => {
     it("do nothing if index is in solvedIndices", () => {
       const solvedBoardState = {
         ...dummyBoardState,
-        solvedIndices: [[6, 7] as Index],
+        solvedChains: [[[6, 7] as Index]],
+        spangramChain: [[7, 8] as Index],
       };
       expect(setCurrentIndex(solvedBoardState, [6, 7])).toEqual(
+        solvedBoardState,
+      );
+      expect(setCurrentIndex(solvedBoardState, [7, 8])).toEqual(
         solvedBoardState,
       );
     });
@@ -310,6 +314,52 @@ describe("Board State Chains", () => {
     });
     it("getChainFromIndex -- from no chain", () => {
       expect(getChainFromIndex(testBoardState, [3, 3])).toEqual([]);
+    });
+  });
+  describe("getColorFromIndex", () => {
+    const testBoardState = {
+      ...emptyBoardState,
+      solvedChains: [
+        [
+          [3, 1],
+          [2, 0],
+          [1, 0],
+          [0, 0],
+          [0, 1],
+        ] as Index[],
+      ],
+      solvedSpangramChain: [
+        [5, 4],
+        [4, 4],
+        [3, 4],
+        [2, 3],
+        [2, 2],
+        [2, 1],
+        [1, 1],
+        [0, 1],
+      ] as Index[],
+      currentIndices: [
+        [5, 5],
+        [4, 5],
+        [3, 5],
+      ] as Index[],
+    };
+    it("getColorFromIndex -- from currentIndices", () => {
+      expect(getColorFromIndex(testBoardState, [5, 5])).toBe("currentIndices");
+      expect(getColorFromIndex(testBoardState, [4, 5])).toBe("currentIndices");
+      expect(getColorFromIndex(testBoardState, [3, 5])).toBe("currentIndices");
+    });
+    it("getColorFromIndex -- from solvedSpangramChain", () => {
+      expect(getColorFromIndex(testBoardState, [5, 4])).toBe("spangram");
+      expect(getColorFromIndex(testBoardState, [2, 2])).toBe("spangram");
+      expect(getColorFromIndex(testBoardState, [0, 1])).toBe("spangram");
+    });
+    it("getColorFromIndex -- from solvedChains", () => {
+      expect(getColorFromIndex(testBoardState, [1, 0])).toBe("solvedChains");
+      expect(getColorFromIndex(testBoardState, [0, 0])).toBe("solvedChains");
+    });
+    it("getColorFromIndex -- from no chain", () => {
+      expect(getColorFromIndex(testBoardState, [3, 3])).toEqual("none");
     });
   });
 });
