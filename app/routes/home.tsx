@@ -1,4 +1,5 @@
 import {
+  boardStateWin,
   getColorFromIndex,
   getLetterFromIndex,
   getRayDirection,
@@ -25,8 +26,12 @@ function generateIndexGrid(width: number, height: number) {
 
 export default function Home() {
   const board = useBoardStore((state) => state);
-  const boardWidth = board.boardData.board[0].length;
-  const boardHeight = board.boardData.board.length;
+  const boardWidth = useBoardStore((state) => state.boardData.board[0].length);
+  const boardHeight = useBoardStore((state) => state.boardData.board.length);
+  const spelledWord = useBoardStore((state) =>
+    state.currentIndices.map((i) => getLetterFromIndex(state, i)).join(""),
+  );
+  const isWinning = useBoardStore((state) => boardStateWin(state));
 
   const indexGrid = generateIndexGrid(boardWidth, boardHeight);
 
@@ -50,6 +55,7 @@ export default function Home() {
           />
         ))}
       </section>
+      <p>{isWinning ? "You Win!" : spelledWord}</p>
     </>
   );
 }

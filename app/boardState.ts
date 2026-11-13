@@ -453,6 +453,14 @@ function confirmChain(boardState: BoardState): BoardState {
   }
 }
 
+export function boardStateWin(boardState: BoardState): boolean {
+  return (
+    boardState.solvedSpangramChain.length ===
+      boardState.boardData.spangram.length &&
+    boardState.solvedChains.length === boardState.boardData.words.length
+  );
+}
+
 export const boardStateCreator: StateCreator<BoardStore> = (set) => ({
   boardData: boards[0],
   currentIndices: [],
