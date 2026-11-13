@@ -30,7 +30,7 @@ export const boards: BoardData[] = [
       "MATTEO",
       "REVISE",
     ]),
-    spangram: "ATENISTA",
+    spangram: "ATENEANS",
   },
   // level two
   {
@@ -87,6 +87,7 @@ export interface BoardState {
   currentIndices: Array<Index>;
   solvedIndices: Array<Index>;
   solvedChains: Array<Array<Index>>;
+  solvedSpangramChain: Array<Index>;
 }
 
 export interface BoardStore extends BoardState {
@@ -110,8 +111,43 @@ export function doesCurrentChainSolveWord(boardState: BoardState): boolean {
   const word = currentIndices
     .map((index) => getLetterFromIndex(boardState, index))
     .join("");
-  console.log("word: ", word);
   return boardState.boardData.words.has(word);
+}
+
+export function doesCurrentChainSolveSpangram(boardState: BoardState): boolean {
+  const currentIndices = boardState.currentIndices;
+  const word = currentIndices
+    .map((index) => getLetterFromIndex(boardState, index))
+    .join("");
+  return boardState.boardData.spangram === word;
+}
+
+export function getChainFromIndex(
+  boardState: BoardState,
+  index: Index,
+): Array<Index> {
+  // if in current indices, solved chains or spangram chain, return that chain
+  if (boardState.currentIndices.find((i) => isDeepEqual(i, index))) {
+    return boardState.currentIndices;
+  } else if (
+    boardState.solvedSpangramChain.find((i) => isDeepEqual(i, index))
+  ) {
+    return boardState.solvedSpangramChain;
+  } else {
+    for (const chain of boardState.solvedChains) {
+      if (chain.find((i) => isDeepEqual(i, index))) {
+        return chain;
+      }
+    }
+  }
+  return [];
+}
+
+export function getColorFromIndex(
+  boardState: BoardState,
+  index: Index,
+): string {
+  return "";
 }
 
 // read only functions here
@@ -130,7 +166,6 @@ export function isAdjacent(i: Index, j: Index) {
   return Math.abs(i[0] - j[0]) <= 1 && Math.abs(i[1] - j[1]) <= 1;
 }
 
-// TODO: move this to cell?
 export function getConnectingDirection(source: Index, dest: Index) {
   const xDelta = dest[0] - source[0];
   const yDelta = dest[1] - source[1];

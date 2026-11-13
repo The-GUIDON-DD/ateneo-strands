@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import type { BoardData, BoardState, Index } from "./boardState";
 import {
   boards,
+  doesCurrentChainSolveSpangram,
   doesCurrentChainSolveWord,
+  getChainFromIndex,
   getConnectingDirection,
   getCurrentIndex,
   getLetterFromIndex,
@@ -22,6 +24,7 @@ const emptyBoardState: BoardState = {
   currentIndices: [],
   solvedIndices: [],
   solvedChains: [],
+  solvedSpangramChain: [],
 };
 const dummyBoardState: BoardState = {
   ...emptyBoardState,
@@ -203,6 +206,110 @@ describe("Board State Chains", () => {
         ] as Index[],
       };
       expect(doesCurrentChainSolveWord(testBoardState)).toBe(false);
+    });
+  });
+  describe("doesCurrentChainSolveSpangram", () => {
+    it("doesCurrentChainSolveSpangram -- word indices", () => {
+      const testBoardState = {
+        ...sampleBoardState,
+        currentIndices: [
+          [3, 1],
+          [2, 0],
+          [1, 0],
+          [0, 0],
+          [0, 1],
+        ] as Index[],
+      };
+      expect(doesCurrentChainSolveSpangram(testBoardState)).toBe(false);
+    });
+    it("doesCurrentChainSolveSpangram -- invalid indices", () => {
+      const testBoardState = {
+        ...sampleBoardState,
+        currentIndices: [
+          [1, 0],
+          [1, 1],
+          [2, 1],
+        ] as Index[],
+      };
+      expect(doesCurrentChainSolveSpangram(testBoardState)).toBe(false);
+    });
+    it("doesCurrentChainSolveSpangram -- spangram indices", () => {
+      const testBoardState = {
+        ...sampleBoardState,
+        currentIndices: [
+          [5, 4],
+          [4, 4],
+          [3, 4],
+          [2, 3],
+          [2, 2],
+          [2, 1],
+          [1, 1],
+          [0, 1],
+        ] as Index[],
+      };
+      expect(doesCurrentChainSolveSpangram(testBoardState)).toBe(true);
+    });
+  });
+  describe("getChainFromIndex", () => {
+    const testBoardState = {
+      ...emptyBoardState,
+      solvedChains: [
+        [
+          [3, 1],
+          [2, 0],
+          [1, 0],
+          [0, 0],
+          [0, 1],
+        ] as Index[],
+      ],
+      solvedSpangramChain: [
+        [5, 4],
+        [4, 4],
+        [3, 4],
+        [2, 3],
+        [2, 2],
+        [2, 1],
+        [1, 1],
+        [0, 1],
+      ] as Index[],
+      currentIndices: [
+        [5, 5],
+        [4, 5],
+        [3, 5],
+      ] as Index[],
+    };
+    it("getChainFromIndex -- from currentIndices", () => {
+      expect(getChainFromIndex(testBoardState, [5, 5])).toBe(
+        testBoardState.currentIndices,
+      );
+      expect(getChainFromIndex(testBoardState, [4, 5])).toBe(
+        testBoardState.currentIndices,
+      );
+      expect(getChainFromIndex(testBoardState, [3, 5])).toBe(
+        testBoardState.currentIndices,
+      );
+    });
+    it("getChainFromIndex -- from solvedSpangramChain", () => {
+      expect(getChainFromIndex(testBoardState, [5, 4])).toBe(
+        testBoardState.solvedSpangramChain,
+      );
+      expect(getChainFromIndex(testBoardState, [2, 2])).toBe(
+        testBoardState.solvedSpangramChain,
+      );
+      expect(getChainFromIndex(testBoardState, [0, 1])).toBe(
+        testBoardState.solvedSpangramChain,
+      );
+    });
+    it("getChainFromIndex -- from solvedChains", () => {
+      expect(getChainFromIndex(testBoardState, [1, 0])).toBe(
+        testBoardState.solvedChains[0],
+      );
+      expect(getChainFromIndex(testBoardState, [0, 0])).toBe(
+        testBoardState.solvedChains[0],
+      );
+    });
+    it("getChainFromIndex -- from no chain", () => {
+      expect(getChainFromIndex(testBoardState, [3, 3])).toEqual([]);
     });
   });
 });
